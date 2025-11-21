@@ -19,14 +19,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
-enum class Bird(val sound: String, val delay: Duration) {
-    Owl("hoo-h’HOO-hoo", 2.seconds),
-    Parrot("RAAAWK", 2.seconds),
-    Pigeon("coo coo", 3.seconds),
+enum class Bird(val birdName: String, val sound: String, val delay: Duration) {
+    Owl("Tweety", "hoo-h’HOO-hoo", 2.seconds),
+    Parrot("Zazu", "RAAAWK", 2.seconds),
+    Pigeon("Woodstock", "coo coo", 3.seconds),
 }
 
 @Composable
@@ -71,9 +73,12 @@ fun BirdComponent(
     modifier: Modifier = Modifier
 ) {
     LaunchedEffect(bird) {
-        while (true) {
-            println(bird.sound)
-            delay(bird.delay)
+        withContext(CoroutineName(bird.birdName)) {
+            val name = coroutineContext[CoroutineName]?.name
+            while (true) {
+                println("$name: ${bird.sound}")
+                delay(bird.delay)
+            }
         }
     }
 
