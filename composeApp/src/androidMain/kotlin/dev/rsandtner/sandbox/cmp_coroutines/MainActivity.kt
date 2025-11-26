@@ -16,7 +16,12 @@ class MainActivity : ComponentActivity() {
 
         ActivityCompat.requestPermissions(
             this,
-            arrayOf(permission.ACCESS_NETWORK_STATE),
+            arrayOf(
+                permission.ACCESS_NETWORK_STATE,
+                permission.ACCESS_FINE_LOCATION,
+                permission.ACCESS_COARSE_LOCATION,
+                permission.INTERNET
+            ),
             0
         )
 
